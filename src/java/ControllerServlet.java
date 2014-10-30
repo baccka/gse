@@ -6,22 +6,28 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import persistence.ProductCategory;
 import persistence.ProductCategoryFacade;
+import persistence.ShopFacade;
 
 /**
  *
  * @author 11365866
  */
-@WebServlet(urlPatterns = {"/index.html"})
-public class IndexServlet extends HttpServlet {
+@WebServlet(name = "ControllerServlet", urlPatterns = {"/index", ""})
+public class ControllerServlet extends HttpServlet {
     @EJB
-    private ProductCategoryFacade productCategories;
+    private ProductCategoryFacade productCategoryFacade;
+    @EJB
+    private ShopFacade shopFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,18 +40,24 @@ public class IndexServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet IndexServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet IndexServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = request.getSession();
+        
+        List categories = productCategoryFacade.findAll();
+        request.setAttribute("categories", categories);
+        List shops = shopFacade.findAll();
+        request.setAttribute("shops", shops);
+        
+        String userPath = request.getServletPath();
+        if (userPath.isEmpty()) userPath = "/index";
+        else if(userPath.equals("search")) {
+            // TODO
+        }
+        
+        String url =  userPath + ".jsp";
+        try {
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
