@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description")})
+    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
+    @NamedQuery(name = "Product.findByQuery", query = "SELECT p FROM Product p WHERE p.name LIKE :query OR p.description LIKE :query")})
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,7 +57,7 @@ public class Product implements Serializable {
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKProductID")
     private Collection<ProductImage> productImageCollection;
-    @JoinColumn(name = "FK_Product CategoryID", referencedColumnName = "ID")
+    @JoinColumn(name = "`FK_Product CategoryID`", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProductCategory fKProductCategoryID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKProductID")

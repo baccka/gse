@@ -10,8 +10,9 @@
 <html>
     <head>
         
-        <link href="<c:url value="/css/bootstrap.min.css" />" rel="stylesheet">
-<script src="<c:url value="/js/bootstrap.min.js" />"></script>
+    <link href="<c:url value="/css/bootstrap.min.css" />" rel="stylesheet">
+    <script src="<c:url value="/js/jquery-2.1.1.min.js" />"></script>
+    <script src="<c:url value="/js/bootstrap.min.js" />"></script>
         
     </head>
     <body>
@@ -19,25 +20,27 @@
             
             <div class="row">
                 
-                <div class="col-xs-2"><h4>GSE</h4></div>
+                <div class="col-xs-2"><a href="<c:url value="/"/>"><h4>GSE</h4></a></div>
                 
-  <div class="col-xs-8">
+  <div class="col-xs-8">  
+    <form id="searchForm" role="form" action="search" method="get">
     <div class="input-group">
-      <input type="text" class="form-control">
+      <input id="searchField" type="text" class="form-control" name="q" placeholder="what will you buy today?" value="${requestScope.searchQuery}">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
+        <button class="btn btn-default" type="submit">
             <span class="glyphicon glyphicon-search"></span>
         </button>
       </span>
     </div>
+    </form>
   </div>
                 
    <div class="col-xs-2 text-right">
-       <button type="button" class="btn btn-default">
-  <span class="glyphicon glyphicon-shopping-cart"></span> 0
-</button>
+       <a class="btn btn-default" href="cart">
+            <span class="glyphicon glyphicon-shopping-cart"></span> 0
+       </a>
+    </div>
   </div>
-</div>
             
             <div class="row">
                 <div class="col-xs-2">
@@ -54,9 +57,17 @@
                 
                 <div class="col-xs-8">
                     <div class="row">
-                        <div class="col-sm-6 col-md-4"><p> Product A</p></div>
-                        <div class="col-sm-4 col-md-4"><p> Product B</p></div>
-                        <div class="col-sm-4 col-md-4"><p> Product C</p></div>
+                        <c:forEach var="product" begin="0" items="${requestScope.products}">
+                            <div class="col-sm-6 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="<c:url value="/img/default.png"/>" alt="" style="height: 200px; width: auto; display: block;">
+                                    <div class="caption">
+                                        <h4>${product.name}</h4>
+                                        <p>${product.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
                     
                     

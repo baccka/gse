@@ -16,18 +16,25 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import persistence.ProductCategory;
 import persistence.ProductCategoryFacade;
+import persistence.ProductFacade;
+import persistence.ProductImageFacade;
 import persistence.ShopFacade;
 
 /**
  *
  * @author 11365866
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"/index", ""})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"/index",  "/search", "/cart", ""})
 public class ControllerServlet extends HttpServlet {
     @EJB
     private ProductCategoryFacade productCategoryFacade;
     @EJB
     private ShopFacade shopFacade;
+    @EJB
+    private ProductFacade productFacade;
+    @EJB
+    private ProductImageFacade productImageFacade;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,21 +53,32 @@ public class ControllerServlet extends HttpServlet {
         request.setAttribute("categories", categories);
         List shops = shopFacade.findAll();
         request.setAttribute("shops", shops);
+        List products = productFacade.findAll();
+        String searchQuery = "";
         
         String userPath = request.getServletPath();
         if (userPath.isEmpty()) userPath = "/index";
-        else if(userPath.equals("search")) {
-            // TODO
+        else if(userPath.equals("/search")) {
+            searchQuery = request.getParameter("q");
+            userPath = "/index";
+            // FIXME: search through categories here as well?
+            products = productFacade.findByQuery(searchQuery);
+        }
+        else if (userPath.equals("/cart")) {
+            // TODO show the user's cart
         }
         
-        String url =  userPath + ".jsp";
+        request.setAttribute("products", products);
+        request.setAttribute("searchQuery", searchQuery);
+        
+        String url = userPath + ".jsp";
         try {
             getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
