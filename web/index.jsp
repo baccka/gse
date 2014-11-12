@@ -44,12 +44,10 @@
             
             <div class="row">
                 <div class="col-xs-2">
-                            <p>
-    Product categories:
-</p> 
+                    
 <c:forEach var="category" begin="0" items="${requestScope.categories}">
 <p>
-   ${category.name}&nbsp;&nbsp;
+   <a href="<c:url value="/search?q="/>${category.name}">${category.name}</a>
 </p> 
 </c:forEach>
                     

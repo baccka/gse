@@ -72,7 +72,7 @@ public class ControllerServlet extends HttpServlet {
         request.setAttribute("searchQuery", searchQuery);
         
         String url = userPath + ".jsp";
-        try {
+        try {                   
             getServletContext().getRequestDispatcher(url).forward(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
