@@ -36,13 +36,16 @@
   </div>
                 
    <div class="col-xs-2 text-right">
+        <button class="btn btn-primary" type="button">
+            Sign in
+        </button>
        <a class="btn btn-default" href="cart">
             <span class="glyphicon glyphicon-shopping-cart"></span> 0
        </a>
     </div>
   </div>
             
-            <div class="row">
+            <div class="row" style="margin-top:20px;">
                 <div class="col-xs-2">
                     
 <c:forEach var="category" begin="0" items="${requestScope.categories}">
@@ -58,7 +61,7 @@
                         <c:forEach var="product" begin="0" items="${requestScope.products}">
                             <div class="col-sm-6 col-md-4">
                                 <div class="thumbnail">
-                                    <img src="<c:url value="/img/default.png"/>" alt="" style="height: 200px; width: auto; display: block;">
+                                    <img src="<c:url value="${product.mainImage}"/>" alt="" style="height: 200px; width: auto; display: block;">
                                     <div class="caption">
                                         <h4>${product.name}</h4>
                                         <p>${product.description}</p>

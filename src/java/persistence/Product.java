@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
     @NamedQuery(name = "Product.findByQuery", query = "SELECT p FROM Product p WHERE p.name LIKE :query OR p.description LIKE :query")})
 public class Product implements Serializable {
+    @Size(max = 255)
+    @Column(name = "mainImage")
+    private String mainImage;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -156,6 +159,14 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "persistence.Product[ id=" + id + " ]";
+    }
+
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
     }
     
 }
