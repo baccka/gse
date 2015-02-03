@@ -32,7 +32,9 @@
             <span class="glyphicon glyphicon-search"></span>
         </button>
       </span>
-      <div class="search-badge">Category <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+      <c:if test="${categoryQuery != null}">
+        <div class="search-badge">${categoryQuery} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+      </c:if>
     </div>
     </form>
   </div>

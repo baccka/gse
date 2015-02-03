@@ -67,6 +67,7 @@ public class ControllerServlet extends HttpServlet {
             }
             if (categoryQuery != null) {
                 searchQuery += " " + categoryQuery;
+                request.setAttribute("categoryQuery", categoryQuery);
             }
             
             userPath = "/index";
