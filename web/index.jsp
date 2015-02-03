@@ -11,6 +11,7 @@
     <head>
         
     <link href="<c:url value="/css/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/css/gse.css" />" rel="stylesheet">
     <script src="<c:url value="/js/jquery-2.1.1.min.js" />"></script>
     <script src="<c:url value="/js/bootstrap.min.js" />"></script>
         
@@ -25,12 +26,13 @@
   <div class="col-xs-8">  
     <form id="searchForm" role="form" action="search" method="get">
     <div class="input-group">
-      <input id="searchField" type="text" class="form-control" name="q" placeholder="what will you buy today?" value="${requestScope.searchQuery}">
+      <input style="padding-left:100px;" id="searchField" type="text" class="form-control" name="q" placeholder="what will you buy today?" value="${requestScope.searchQuery}">
       <span class="input-group-btn">
         <button class="btn btn-default" type="submit">
             <span class="glyphicon glyphicon-search"></span>
         </button>
       </span>
+      <div class="search-badge">Category <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
     </div>
     </form>
   </div>
@@ -50,7 +52,7 @@
                     
 <c:forEach var="category" begin="0" items="${requestScope.categories}">
 <p>
-   <a href="<c:url value="/search?q="/>${category.name}">${category.name}</a>
+   <a href="<c:url value="/search?c="/>${category.name}">${category.name}</a>
 </p> 
 </c:forEach>
                     

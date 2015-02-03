@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 03-Feb-2015, 10:49:34
+    Author     : 11365866
+*/
+
+.search-badge {
+    position: absolute; 
+    display: block; 
+    top: 3px; 
+    left: 3px; 
+    bottom: 3px; 
+    padding: 3px 6px; 
+    border-radius: 2px;
+    border: 1px solid #ccc;
+    background-color: #eee; 
+    z-index: 10;
+}

@@ -55,11 +55,20 @@ public class ControllerServlet extends HttpServlet {
         request.setAttribute("shops", shops);
         List products = productFacade.findAll();
         String searchQuery = "";
+        String categoryQuery = "";
         
         String userPath = request.getServletPath();
         if (userPath.isEmpty()) userPath = "/index";
         else if(userPath.equals("/search")) {
             searchQuery = request.getParameter("q");
+            categoryQuery = request.getParameter("c");
+            if (searchQuery == null) {
+                searchQuery = "";
+            }
+            if (categoryQuery != null) {
+                searchQuery += " " + categoryQuery;
+            }
+            
             userPath = "/index";
             // FIXME: search through categories here as well?
             products = productFacade.findByQuery(searchQuery);
