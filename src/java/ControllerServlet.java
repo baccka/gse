@@ -55,15 +55,17 @@ public class ControllerServlet extends HttpServlet {
         request.setAttribute("shops", shops);
         List products = productFacade.findAll();
         String searchQuery = "";
+        String displayedSearchQuery = "";
         String categoryQuery = "";
         
         String userPath = request.getServletPath();
         if (userPath.isEmpty()) userPath = "/index";
         else if(userPath.equals("/search")) {
-            searchQuery = request.getParameter("q");
+            displayedSearchQuery = searchQuery = request.getParameter("q");
             categoryQuery = request.getParameter("c");
             if (searchQuery == null) {
                 searchQuery = "";
+                displayedSearchQuery = "";
             }
             if (categoryQuery != null) {
                 searchQuery += " " + categoryQuery;
@@ -79,7 +81,7 @@ public class ControllerServlet extends HttpServlet {
         }
         
         request.setAttribute("products", products);
-        request.setAttribute("searchQuery", searchQuery);
+        request.setAttribute("searchQuery", displayedSearchQuery);
         
         String url = userPath + ".jsp";
         try {                   
