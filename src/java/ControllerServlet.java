@@ -55,33 +55,30 @@ public class ControllerServlet extends HttpServlet {
         request.setAttribute("shops", shops);
         List products = productFacade.findAll();
         String searchQuery = "";
-        String displayedSearchQuery = "";
-        String categoryQuery = "";
         
         String userPath = request.getServletPath();
         if (userPath.isEmpty()) userPath = "/index";
         else if(userPath.equals("/search")) {
-            displayedSearchQuery = searchQuery = request.getParameter("q");
-            categoryQuery = request.getParameter("c");
-            if (searchQuery == null) {
-                searchQuery = "";
-                displayedSearchQuery = "";
-            }
+            searchQuery = request.getParameter("q");
+            String categoryQuery = request.getParameter("c");
+            
             if (categoryQuery != null) {
-                searchQuery += " " + categoryQuery;
+                ProductCategory category = productCategoryFacade.findByName(categoryQuery);
+                products = productFacade.findByQueryAndCategory(searchQuery == null ? "" : searchQuery, category);
                 request.setAttribute("categoryQuery", categoryQuery);
+            } else {
+                assert(searchQuery != null);
+                products = productFacade.findByQuery(searchQuery);
             }
             
             userPath = "/index";
-            // FIXME: search through categories here as well?
-            products = productFacade.findByQuery(searchQuery);
         }
         else if (userPath.equals("/cart")) {
             // TODO show the user's cart
         }
         
         request.setAttribute("products", products);
-        request.setAttribute("searchQuery", displayedSearchQuery);
+        request.setAttribute("searchQuery", searchQuery);
         
         String url = userPath + ".jsp";
         try {                   

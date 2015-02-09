@@ -28,4 +28,7 @@ public class ProductCategoryFacade extends AbstractFacade<ProductCategory> {
         super(ProductCategory.class);
     }
     
+    public ProductCategory findByName(String name){
+       return em.createNamedQuery("ProductCategory.findByName", ProductCategory.class).setParameter("name", name).getSingleResult();
+    }
 }
