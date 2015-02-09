@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package persistence;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,12 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,11 +32,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
     @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
+    @NamedQuery(name = "Product.findByTags", query = "SELECT p FROM Product p WHERE p.tags = :tags"),
+    @NamedQuery(name = "Product.findByMainImage", query = "SELECT p FROM Product p WHERE p.mainImage = :mainImage"),
     @NamedQuery(name = "Product.findByQuery", query = "SELECT p FROM Product p WHERE p.name LIKE :query OR p.description LIKE :query")})
 public class Product implements Serializable {
-    @Size(max = 255)
-    @Column(name = "mainImage")
-    private String mainImage;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -58,13 +52,17 @@ public class Product implements Serializable {
     @Size(max = 255)
     @Column(name = "Description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKProductID")
-    private Collection<ProductImage> productImageCollection;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "Tags")
+    private String tags;
+    @Size(max = 255)
+    @Column(name = "mainImage")
+    private String mainImage;
     @JoinColumn(name = "`FK_Product CategoryID`", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private ProductCategory fKProductCategoryID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKProductID")
-    private Collection<ShoppingCartLine> shoppingCartLineCollection;
 
     public Product() {
     }
@@ -73,9 +71,10 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public Product(Integer id, float price) {
+    public Product(Integer id, float price, String tags) {
         this.id = id;
         this.price = price;
+        this.tags = tags;
     }
 
     public Integer getId() {
@@ -110,13 +109,20 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    @XmlTransient
-    public Collection<ProductImage> getProductImageCollection() {
-        return productImageCollection;
+    public String getTags() {
+        return tags;
     }
 
-    public void setProductImageCollection(Collection<ProductImage> productImageCollection) {
-        this.productImageCollection = productImageCollection;
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
     }
 
     public ProductCategory getFKProductCategoryID() {
@@ -125,15 +131,6 @@ public class Product implements Serializable {
 
     public void setFKProductCategoryID(ProductCategory fKProductCategoryID) {
         this.fKProductCategoryID = fKProductCategoryID;
-    }
-
-    @XmlTransient
-    public Collection<ShoppingCartLine> getShoppingCartLineCollection() {
-        return shoppingCartLineCollection;
-    }
-
-    public void setShoppingCartLineCollection(Collection<ShoppingCartLine> shoppingCartLineCollection) {
-        this.shoppingCartLineCollection = shoppingCartLineCollection;
     }
 
     @Override
@@ -159,14 +156,6 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "persistence.Product[ id=" + id + " ]";
-    }
-
-    public String getMainImage() {
-        return mainImage;
-    }
-
-    public void setMainImage(String mainImage) {
-        this.mainImage = mainImage;
     }
     
 }
