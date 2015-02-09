@@ -5,7 +5,7 @@ $(document).ready(function(){
     var badge = $(".search-badge");
     if (badge.length) {
         console.log("YES BADGE")
-        $("#searchField").css("padding-left", badge.outerWidth() + 6);
+        $("#searchField").css("padding-left", badge.outerWidth() + 10);
     }
     
     // Allow the user to search by pressing the 'enter' key.
