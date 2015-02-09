@@ -34,6 +34,7 @@
         </button>
       </span>
       <c:if test="${categoryQuery != null}">
+        <input type="hidden" name="c" value="${categoryQuery}" />
         <div class="search-badge">${categoryQuery} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
       </c:if>
     </div>
