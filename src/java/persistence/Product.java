@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Product.findByMainImage", query = "SELECT p FROM Product p WHERE p.mainImage = :mainImage"),
     @NamedQuery(name = "Product.findByQuery", query = "SELECT p FROM Product p WHERE p.name LIKE :query OR p.tags LIKE :query"),
     @NamedQuery(name = "Product.findByQueryAndCategory", query = "SELECT p FROM Product p WHERE (p.name LIKE :query OR p.tags LIKE :query) AND p.fKProductCategoryID = :categoryId"),
-    @NamedQuery(name = "Product.findByQueryAndShop", query = "SELECT p FROM Product p, ProductInstance i WHERE (p.name LIKE :query OR p.tags LIKE :query) AND i.productInstancePK.productID = p.id AND i.productInstancePK.shopID = :shopId")})
+    @NamedQuery(name = "Product.findByQueryAndShop", query = "SELECT p FROM Product p, ProductInstance i WHERE (p.name LIKE :query OR p.tags LIKE :query) AND i.productInstancePK.productID = p.id AND i.productInstancePK.shopID = :shopId"),
+    @NamedQuery(name = "Product.findByQueryAndShopAndCategory", query = "SELECT p FROM Product p, ProductInstance i WHERE (p.name LIKE :query OR p.tags LIKE :query) AND i.productInstancePK.productID = p.id AND i.productInstancePK.shopID = :shopId AND p.fKProductCategoryID = :categoryId")})
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

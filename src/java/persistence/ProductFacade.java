@@ -40,4 +40,8 @@ public class ProductFacade extends AbstractFacade<Product> {
        return em.createNamedQuery("Product.findByQueryAndShop", Product.class).setParameter("query", "%" + query + "%").setParameter("shopId", shop.getId()).getResultList();
     }
     
+    public List<Product> findByQueryAndShopAndCategory(String query, Shop shop, ProductCategory category){
+       return em.createNamedQuery("Product.findByQueryAndShopAndCategory", Product.class).setParameter("query", "%" + query + "%").setParameter("shopId", shop.getId()).setParameter("categoryId", category).getResultList();
+    }
+    
 }
