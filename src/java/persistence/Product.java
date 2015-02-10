@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
     @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
     @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
     @NamedQuery(name = "Product.findByTags", query = "SELECT p FROM Product p WHERE p.tags = :tags"),
     @NamedQuery(name = "Product.findByMainImage", query = "SELECT p FROM Product p WHERE p.mainImage = :mainImage"),
@@ -46,10 +45,6 @@ public class Product implements Serializable {
     @Size(max = 255)
     @Column(name = "Name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Price")
-    private float price;
     @Size(max = 255)
     @Column(name = "Description")
     private String description;
@@ -72,9 +67,8 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public Product(Integer id, float price, String tags) {
+    public Product(Integer id, String tags) {
         this.id = id;
-        this.price = price;
         this.tags = tags;
     }
 
@@ -92,14 +86,6 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
     }
 
     public String getDescription() {
