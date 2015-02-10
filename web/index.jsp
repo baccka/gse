@@ -83,8 +83,8 @@
                 <div class="col-xs-2 text-right">
 <c:forEach var="shop" begin="0" items="${requestScope.shops}">
 <p>
-   ${shop.name}
-</p> 
+   <a href="<c:url value="/search?s="/>${shop.name}">${shop.name}</a>
+</p>
 </c:forEach>
                     
                 </div>
