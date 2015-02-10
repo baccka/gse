@@ -18,6 +18,7 @@ import persistence.ProductCategory;
 import persistence.ProductCategoryFacade;
 import persistence.ProductFacade;
 import persistence.ProductImageFacade;
+import persistence.Shop;
 import persistence.ShopFacade;
 
 /**
@@ -61,8 +62,12 @@ public class ControllerServlet extends HttpServlet {
         else if(userPath.equals("/search")) {
             searchQuery = request.getParameter("q");
             String categoryQuery = request.getParameter("c");
-            
-            if (categoryQuery != null) {
+            String shopName = request.getParameter("s");
+            Shop shop = null;
+            if (shopName != null) {
+                shop = shopFacade.findByName(shopName);
+                products = productFacade.findByQueryAndShop(searchQuery == null ? "" : searchQuery, shop);
+            } else if (categoryQuery != null) {
                 ProductCategory category = productCategoryFacade.findByName(categoryQuery);
                 products = productFacade.findByQueryAndCategory(searchQuery == null ? "" : searchQuery, category);
                 request.setAttribute("categoryQuery", categoryQuery);

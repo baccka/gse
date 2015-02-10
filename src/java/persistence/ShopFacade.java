@@ -28,4 +28,8 @@ public class ShopFacade extends AbstractFacade<Shop> {
         super(Shop.class);
     }
     
+    public Shop findByName(String name){
+       return em.createNamedQuery("Shop.findByName", Shop.class).setParameter("name", name).getSingleResult();
+    }
+    
 }
