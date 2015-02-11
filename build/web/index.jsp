@@ -33,6 +33,10 @@
             <span class="glyphicon glyphicon-search"></span>
         </button>
       </span>
+      <c:if test="${shopName != null}">
+        <input type="hidden" name="s" value="${shopName}" />
+        <div class="search-badge">${shopName} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+      </c:if>
       <c:if test="${categoryQuery != null}">
         <input type="hidden" name="c" value="${categoryQuery}" />
         <div class="search-badge">${categoryQuery} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
@@ -56,7 +60,12 @@
                     
 <c:forEach var="category" begin="0" items="${requestScope.categories}">
 <p>
-   <a href="<c:url value="/search?c="/>${category.name}">${category.name}</a>
+    <c:if test="${shopName != null}">
+        <a href="<c:url value="/search?s="/>${shopName}&c=${category.name}">${category.name}</a>
+    </c:if>
+    <c:if test="${shopName == null}">
+        <a href="<c:url value="/search?c="/>${category.name}">${category.name}</a>
+    </c:if>
 </p> 
 </c:forEach>
                     

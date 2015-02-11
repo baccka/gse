@@ -66,7 +66,14 @@ public class ControllerServlet extends HttpServlet {
             Shop shop = null;
             if (shopName != null) {
                 shop = shopFacade.findByName(shopName);
-                products = productFacade.findByQueryAndShop(searchQuery == null ? "" : searchQuery, shop);
+                if (categoryQuery != null) {
+                    ProductCategory category = productCategoryFacade.findByName(categoryQuery);
+                    products = productFacade.findByQueryAndShopAndCategory(searchQuery == null ? "" : searchQuery, shop, category);
+                    request.setAttribute("categoryQuery", categoryQuery);
+                } else {
+                    products = productFacade.findByQueryAndShop(searchQuery == null ? "" : searchQuery, shop);
+                }
+                request.setAttribute("shopName", shopName);
             } else if (categoryQuery != null) {
                 ProductCategory category = productCategoryFacade.findByName(categoryQuery);
                 products = productFacade.findByQueryAndCategory(searchQuery == null ? "" : searchQuery, category);
