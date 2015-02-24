@@ -2,11 +2,18 @@
 
 $(document).ready(function(){
     // Indent the search box text if there are any search badges present
-    var badge = $(".search-badge");
-    if (badge.length) {
+
+    var badgeOffset = 3;
+    var badges = $('.search-badge');
+    $.each(badges, function() {
+        $(this).css('left', badgeOffset); 
+        badgeOffset += $(this).outerWidth()+3; 
+    });
+    if (badges.length) {
         console.log("YES BADGE")
-        $("#searchField").css("padding-left", badge.outerWidth() + 10);
+        $("#searchField").css("padding-left", badgeOffset);
     }
+    
     
     // Allow the user to search by pressing the 'enter' key.
     $("#searchField").keypress(function(event) {
