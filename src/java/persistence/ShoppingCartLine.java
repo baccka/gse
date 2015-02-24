@@ -33,6 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ShoppingCartLine.findById", query = "SELECT s FROM ShoppingCartLine s WHERE s.id = :id"),
     @NamedQuery(name = "ShoppingCartLine.findByQuantity", query = "SELECT s FROM ShoppingCartLine s WHERE s.quantity = :quantity")})
 public class ShoppingCartLine implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "FK_ShopID")
+    private int fKShopID;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,6 +121,14 @@ public class ShoppingCartLine implements Serializable {
     @Override
     public String toString() {
         return "persistence.ShoppingCartLine[ id=" + id + " ]";
+    }
+
+    public int getFKShopID() {
+        return fKShopID;
+    }
+
+    public void setFKShopID(int fKShopID) {
+        this.fKShopID = fKShopID;
     }
     
 }

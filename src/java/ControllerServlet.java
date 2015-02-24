@@ -86,7 +86,7 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/index";
         }
         else if (userPath.equals("/cart")) {
-            // TODO show the user's cart
+            userPath = "/cart";
         }
         
         request.setAttribute("products", products);
