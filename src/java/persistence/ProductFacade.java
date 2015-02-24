@@ -28,6 +28,10 @@ public class ProductFacade extends AbstractFacade<Product> {
         super(Product.class);
     }
     
+    public Product findByID(Integer id) {
+        return em.createNamedQuery("Product.findById", Product.class).setParameter("id", id).getSingleResult();
+    }
+    
     public List<Product> findByQuery(String query){
        return em.createNamedQuery("Product.findByQuery", Product.class).setParameter("query", "%" + query + "%").getResultList();
     }

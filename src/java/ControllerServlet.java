@@ -20,6 +20,9 @@ import persistence.ProductFacade;
 import persistence.ProductImageFacade;
 import persistence.Shop;
 import persistence.ShopFacade;
+import persistence.ShoppingCartLine;
+import persistence.ShoppingCartLineFacade;
+import persistence.Shoppingcart;
 
 /**
  *
@@ -35,6 +38,8 @@ public class ControllerServlet extends HttpServlet {
     private ProductFacade productFacade;
     @EJB
     private ProductImageFacade productImageFacade;
+    @EJB
+    private ShoppingCartLineFacade shoppingCartLineFacade;
     
 
     /**
@@ -86,6 +91,10 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/index";
         }
         else if (userPath.equals("/cart")) {
+            Shoppingcart cart = new Shoppingcart();
+            cart.setId(0);
+            List<ShoppingCartLine> lines = shoppingCartLineFacade.findByShoppingCart(cart);
+            request.setAttribute("lines", lines);
             userPath = "/cart";
         }
         

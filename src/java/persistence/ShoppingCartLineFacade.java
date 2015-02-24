@@ -6,6 +6,7 @@
 
 package persistence;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,11 @@ public class ShoppingCartLineFacade extends AbstractFacade<ShoppingCartLine> {
 
     public ShoppingCartLineFacade() {
         super(ShoppingCartLine.class);
+    }
+    
+       
+    public List<ShoppingCartLine> findByShoppingCart(Shoppingcart cart){
+       return em.createNamedQuery("Product.findByShoppingCart", ShoppingCartLine.class).setParameter("cart", cart).getResultList();
     }
     
 }

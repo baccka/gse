@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ShoppingCartLine.findAll", query = "SELECT s FROM ShoppingCartLine s"),
     @NamedQuery(name = "ShoppingCartLine.findById", query = "SELECT s FROM ShoppingCartLine s WHERE s.id = :id"),
-    @NamedQuery(name = "ShoppingCartLine.findByQuantity", query = "SELECT s FROM ShoppingCartLine s WHERE s.quantity = :quantity")})
+    @NamedQuery(name = "ShoppingCartLine.findByQuantity", query = "SELECT s FROM ShoppingCartLine s WHERE s.quantity = :quantity"),
+    @NamedQuery(name = "ShoppingCartLine.findByShoppingCart", query = "SELECT s FROM ShoppingCartLine s WHERE s.fKShoppingcartID = :cart") })
 public class ShoppingCartLine implements Serializable {
     @Basic(optional = false)
     @NotNull
