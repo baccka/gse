@@ -77,9 +77,9 @@
                             <div class="col-sm-6 col-md-4">
                                 <div class="thumbnail">
                                     <img src="<c:url value="${product.mainImage}"/>" alt="" style="height: 200px; width: auto; display: block;">
-                                    <div class="caption">
+                                    <div class="caption" style="height: 200px">
                                         <h4>${product.name}</h4>
-                                        <p>${product.description}</p>
+                                        <p style="overflow:hidden; text-overflow: ellipsis;">${product.description}</p>
                                     </div>
                                 </div>
                             </div>
