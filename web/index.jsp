@@ -73,13 +73,16 @@
                 
                 <div class="col-xs-8">
                     <div class="row">
-                        <c:forEach var="product" begin="0" items="${requestScope.products}">
+                        <c:forEach var="product" varStatus="status" begin="0" items="${requestScope.products}">
                             <div class="col-sm-6 col-md-4">
-                                <div class="thumbnail">
+                                <div class="thumbnail" class="productContainer">
                                     <img src="<c:url value="${product.mainImage}"/>" alt="" style="height: 200px; width: auto; display: block;">
                                     <div class="caption" style="height: 200px">
                                         <h4>${product.name}</h4>
-                                        <p style="overflow:hidden; text-overflow: ellipsis;">${product.description}</p>
+                                        <p class="productDescription">${product.description}</p>
+                                        <c:if test="${productInstances != null}">
+                                            <p><strong>$12.00</strong> <small>Tesco</small></p>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>

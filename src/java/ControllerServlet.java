@@ -6,6 +6,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,10 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import persistence.Product;
 import persistence.ProductCategory;
 import persistence.ProductCategoryFacade;
 import persistence.ProductFacade;
 import persistence.ProductImageFacade;
+import persistence.ProductInstance;
+import persistence.ProductInstanceFacade;
 import persistence.Shop;
 import persistence.ShopFacade;
 import persistence.ShoppingCartLine;
@@ -39,6 +43,8 @@ public class ControllerServlet extends HttpServlet {
     @EJB
     private ProductImageFacade productImageFacade;
     @EJB
+    private ProductInstanceFacade productInstanceFacade;
+    @EJB
     private ShoppingCartLineFacade shoppingCartLineFacade;
     
 
@@ -59,7 +65,7 @@ public class ControllerServlet extends HttpServlet {
         request.setAttribute("categories", categories);
         List shops = shopFacade.findAll();
         request.setAttribute("shops", shops);
-        List products = productFacade.findAll();
+        List<Product> products = productFacade.findAll();
         String searchQuery = "";
         
         String userPath = request.getServletPath();
@@ -87,6 +93,17 @@ public class ControllerServlet extends HttpServlet {
                 assert(searchQuery != null);
                 products = productFacade.findByQuery(searchQuery);
             }
+            
+            // Find specific product instances in different shops.
+            ArrayList<ProductInstance> productInstances = new ArrayList<ProductInstance>();
+            for (int i = 0; i < products.size(); ++i) {
+                Product p = products.get(i);
+                List<ProductInstance> instances = productInstanceFacade.findByProduct(p);
+                if (!instances.isEmpty()) {
+                    productInstances.add(instances.get(0));
+                }
+            }
+            request.setAttribute("productInstances", productInstances);
             
             userPath = "/index";
         }
