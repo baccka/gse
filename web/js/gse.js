@@ -14,6 +14,10 @@ $(document).ready(function(){
         $("#searchField").css("padding-left", badgeOffset);
     }
     
+    $(".productContainer").click(function() {
+        var id = $(this).attr("data-id");
+        console.log("click: " + name);
+    })
     
     // Allow the user to search by pressing the 'enter' key.
     $("#searchField").keypress(function(event) {

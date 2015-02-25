@@ -75,10 +75,13 @@
                     <div class="row">
                         <c:forEach var="product" varStatus="status" begin="0" items="${requestScope.products}">
                             <div class="col-sm-6 col-md-4">
-                                <div class="thumbnail" class="productContainer">
+                                <div class="thumbnail productContainer" data-id="${product.id}">
                                     <img src="<c:url value="${product.mainImage}"/>" alt="" style="height: 200px; width: auto; display: block;">
-                                    <div class="caption" style="height: 200px">
-                                        <h4>${product.name}</h4>
+                                    <div class="caption">
+                                        <div class="center-block" style="height: 48px">
+                                            <h4 class="text-center">${product.name}</h4>
+                                        </div>
+                                        
                                         <p class="productDescription">${product.description}</p>
                                         <c:if test="${productInstances != null}">
                                             <p><strong>$12.00</strong> <small>Tesco</small></p>

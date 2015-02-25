@@ -5,12 +5,14 @@
         <group>
             <file>file:/F:/gse/src/java/persistence/ShoppingCartLineFacade.java</file>
             <file>file:/F:/gse/setup/glassfish-resources.xml</file>
+            <file>file:/F:/gse/src/java/persistence/ShoppingCartLine.java</file>
+            <file>file:/F:/gse/src/java/persistence/ProductInstancePK.java</file>
             <file>file:/F:/gse/src/java/persistence/ProductCategoryFacade.java</file>
             <file>file:/F:/gse/src/java/persistence/ShopFacade.java</file>
             <file>file:/F:/gse/src/java/persistence/Product.java</file>
             <file>file:/F:/gse/src/java/persistence/Shop.java</file>
-            <file>file:/F:/gse/web/js/jquery-2.1.1.min.js</file>
             <file>file:/F:/gse/web/index.jsp</file>
+            <file>file:/F:/gse/src/java/persistence/ProductInstance.java</file>
             <file>file:/F:/gse/src/java/persistence/DeliveryPerson.java</file>
             <file>file:/F:/gse/src/java/persistence/CustomerFacade.java</file>
             <file>file:/F:/gse/src/java/persistence/ProductImageFacade.java</file>
@@ -22,8 +24,11 @@
             <file>file:/F:/gse/src/java/persistence/ProductFacade.java</file>
             <file>file:/F:/gse/src/java/persistence/Order1.java</file>
             <file>file:/F:/gse/web/js/gse.js</file>
+            <file>file:/F:/gse/src/java/persistence/ProductInstanceFacade.java</file>
             <file>file:/F:/gse/src/java/persistence/ProductCategory.java</file>
+            <file>file:/F:/gse/src/java/persistence/Shoppingcart.java</file>
             <file>file:/F:/gse/src/java/ControllerServlet.java</file>
+            <file>file:/F:/gse/web/cart.jsp</file>
             <file>file:/F:/gse/src/java/persistence/Customer.java</file>
             <file>file:/F:/gse/src/java/persistence/ProductImage.java</file>
             <file>file:/F:/gse/src/conf/persistence.xml</file>
