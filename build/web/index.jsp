@@ -18,46 +18,54 @@
         
     </head>
     <body>
-        <div class="container-fluid" style="margin-top:10px;">
+        <nav style="background-color: #f5f5f5;border-bottom-color: #ddd;border-bottom-style: solid;border-bottom-width: 1px;margin-bottom:20px;">
+        <div class="container-fluid">
+                                <div class="row" style="padding-top:10px;padding-bottom:10px;">
+
+                         <div class="col-xs-2"><a href="<c:url value="/"/>"><h4 style="color:#333;margin: 0 !important;line-height:34px;">GSE</h4></a></div>
+
+           <div class="col-xs-8">  
+             <form id="searchForm" role="form" action="search" method="get">
+             <div class="input-group">
+               <input id="searchField" type="text" class="form-control" name="q" placeholder="What will you buy today?" value="${requestScope.searchQuery}">
+               <span class="input-group-btn">
+                 <button class="btn btn-default" type="submit">
+                     <span class="glyphicon glyphicon-search"></span>
+                 </button>
+               </span>
+               <c:if test="${shopName != null}">
+                 <input type="hidden" name="s" value="${shopName}" />
+                 <div class="search-badge">${shopName} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+               </c:if>
+               <c:if test="${categoryQuery != null}">
+                 <input type="hidden" name="c" value="${categoryQuery}" />
+                 <div class="search-badge">${categoryQuery} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+               </c:if>
+             </div>
+             </form>
+           </div>
+
+            <div class="col-xs-2 text-right">
+                 <button class="btn btn-primary" type="button">
+                     Sign in
+                 </button>
+                <a class="btn btn-default" href="cart">
+                     <span class="glyphicon glyphicon-shopping-cart"></span> 0
+                </a>
+             </div>
+           </div>
+        </div>
+        </nav>
+      
+        <div class="container-fluid">
             
             <div class="row">
-                
-                <div class="col-xs-2"><a href="<c:url value="/"/>"><h4>GSE</h4></a></div>
-                
-  <div class="col-xs-8">  
-    <form id="searchForm" role="form" action="search" method="get">
-    <div class="input-group">
-      <input id="searchField" type="text" class="form-control" name="q" placeholder="What will you buy today?" value="${requestScope.searchQuery}">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="submit">
-            <span class="glyphicon glyphicon-search"></span>
-        </button>
-      </span>
-      <c:if test="${shopName != null}">
-        <input type="hidden" name="s" value="${shopName}" />
-        <div class="search-badge">${shopName} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-      </c:if>
-      <c:if test="${categoryQuery != null}">
-        <input type="hidden" name="c" value="${categoryQuery}" />
-        <div class="search-badge">${categoryQuery} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
-      </c:if>
-    </div>
-    </form>
-  </div>
-                
-   <div class="col-xs-2 text-right">
-        <button class="btn btn-primary" type="button">
-            Sign in
-        </button>
-       <a class="btn btn-default" href="cart">
-            <span class="glyphicon glyphicon-shopping-cart"></span> 0
-       </a>
-    </div>
-  </div>
-            
-            <div class="row" style="margin-top:20px;">
                 <div class="col-xs-2">
-                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+    <h3 class="panel-title">Categories</h3>
+  </div>
+  <div class="panel-body">                    
 <c:forEach var="category" begin="0" items="${requestScope.categories}">
 <p>
     <c:if test="${shopName != null}">
@@ -68,7 +76,7 @@
     </c:if>
 </p> 
 </c:forEach>
-                    
+  </div></div>  
                 </div>
                 
                 <div class="col-xs-8">
@@ -85,7 +93,7 @@
                                         <p class="productDescription">${product.description}</p>
                                         <c:if test="${productInstances != null}">
                                             <p style="display: inline;">
-                                                <strong>€ 12.00</strong><small> at Tesco</small> 
+                                                <strong>€ ${productInstances[status.index].price}</strong><small> at ${shops[productInstances[status.index].productInstancePK.shopID].name}</small> 
                                             </p>
                                         </c:if>
                                     </div>
@@ -115,12 +123,18 @@
                 </div>
                 
                 <div class="col-xs-2 text-right">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+    <h3 class="panel-title">Shops</h3>
+  </div>
+  <div class="panel-body">
 <c:forEach var="shop" begin="0" items="${requestScope.shops}">
 <p>
    <a href="<c:url value="/search?s="/>${shop.name}">${shop.name}</a>
 </p>
 </c:forEach>
-                    
+  </div>
+                    </div>
                 </div>
   
 </div>
