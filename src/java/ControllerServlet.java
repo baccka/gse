@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import persistence.Customer;
+import persistence.CustomerFacade;
 import persistence.Product;
 import persistence.ProductCategory;
 import persistence.ProductCategoryFacade;
@@ -27,6 +29,7 @@ import persistence.ShopFacade;
 import persistence.ShoppingCartLine;
 import persistence.ShoppingCartLineFacade;
 import persistence.Shoppingcart;
+import persistence.ShoppingcartFacade;
 
 /**
  *
@@ -46,6 +49,10 @@ public class ControllerServlet extends HttpServlet {
     private ProductInstanceFacade productInstanceFacade;
     @EJB
     private ShoppingCartLineFacade shoppingCartLineFacade;
+    @EJB
+    private ShoppingcartFacade shoppingCartFacade;
+    @EJB
+    private CustomerFacade customerFacade;
     
 
     /**
@@ -59,7 +66,8 @@ public class ControllerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
+        session.setAttribute("user", 0);
         
         List categories = productCategoryFacade.findAll();
         request.setAttribute("categories", categories);
@@ -131,7 +139,25 @@ public class ControllerServlet extends HttpServlet {
     
     // This method is called whenever a user adds an item to cart.
     private void addItemToCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Get user details from session.
+        HttpSession session = request.getSession();
+        if (session == null) {
+            response.sendError(/* HTTP Unauthorized */ 401);
+            return;
+        }
+        Object user = session.getAttribute("user");
+        if (user == null) {
+            response.sendError(/* HTTP Unauthorized */ 401);
+            return;
+        }
+        int userId = (int)user;
+        Customer customer = customerFacade.find(userId);
+        
+        // Get the product, shop and the number of products that we want to add.
         String id = (String)request.getParameter("id");
+        Product product = productFacade.find(Integer.parseInt(id));
+        String shopId = (String)request.getParameter("shopId");
+        Shop shop = shopFacade.find(Integer.parseInt(shopId));
         int count = 1;
         Object cParam = request.getParameter("count");
         if (cParam != null) {
@@ -140,7 +166,13 @@ public class ControllerServlet extends HttpServlet {
                 // FIXME: error.
             }
         }
-        System.out.println("Adding " + count + " item(s) of id " + id + " to cart");
+        
+        // Do it
+        System.out.println("Adding " + count + " item(s) of id " + id + " from shop " + shopId + "  to cart of user " + userId);
+        Shoppingcart cart = shoppingCartFacade.getOrCreate(customer);
+        ShoppingCartLine line = shoppingCartLineFacade.createInCart(cart, product, shop, count);
+        shoppingCartFacade.addCartLine(cart, line);
+        
         response.getOutputStream().flush();
         response.getOutputStream().close();
     }

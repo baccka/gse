@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package persistence;
 
 import java.io.Serializable;
@@ -23,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author 11365866
+ * @author alex
  */
 @Entity
 @Table(name = "ShoppingCartLine")
@@ -31,13 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ShoppingCartLine.findAll", query = "SELECT s FROM ShoppingCartLine s"),
     @NamedQuery(name = "ShoppingCartLine.findById", query = "SELECT s FROM ShoppingCartLine s WHERE s.id = :id"),
-    @NamedQuery(name = "ShoppingCartLine.findByQuantity", query = "SELECT s FROM ShoppingCartLine s WHERE s.quantity = :quantity"),
-    @NamedQuery(name = "ShoppingCartLine.findByShoppingCart", query = "SELECT s FROM ShoppingCartLine s WHERE s.fKShoppingcartID = :cart") })
+    @NamedQuery(name = "ShoppingCartLine.findByQuantity", query = "SELECT s FROM ShoppingCartLine s WHERE s.quantity = :quantity")})
 public class ShoppingCartLine implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "FK_ShopID")
-    private int fKShopID;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +42,14 @@ public class ShoppingCartLine implements Serializable {
     @NotNull
     @Column(name = "Quantity")
     private int quantity;
-    @JoinColumn(name = "FK_Shopping cartID", referencedColumnName = "ID")
+    @JoinColumn(name = "FK_ShopID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
+    private Shop fKShopID;
+    @JoinColumn(name = "FK_OrderID", referencedColumnName = "ID")
+    @ManyToOne
+    private Order1 fKOrderID;
+    @JoinColumn(name = "`FK_Shopping cartID`", referencedColumnName = "ID")
+    @ManyToOne
     private Shoppingcart fKShoppingcartID;
     @JoinColumn(name = "FK_ProductID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
@@ -81,6 +81,22 @@ public class ShoppingCartLine implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Shop getFKShopID() {
+        return fKShopID;
+    }
+
+    public void setFKShopID(Shop fKShopID) {
+        this.fKShopID = fKShopID;
+    }
+
+    public Order1 getFKOrderID() {
+        return fKOrderID;
+    }
+
+    public void setFKOrderID(Order1 fKOrderID) {
+        this.fKOrderID = fKOrderID;
     }
 
     public Shoppingcart getFKShoppingcartID() {
@@ -122,14 +138,6 @@ public class ShoppingCartLine implements Serializable {
     @Override
     public String toString() {
         return "persistence.ShoppingCartLine[ id=" + id + " ]";
-    }
-
-    public int getFKShopID() {
-        return fKShopID;
-    }
-
-    public void setFKShopID(int fKShopID) {
-        this.fKShopID = fKShopID;
     }
     
 }

@@ -39,6 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Order1.findByOrderStatus", query = "SELECT o FROM Order1 o WHERE o.orderStatus = :orderStatus"),
     @NamedQuery(name = "Order1.findByOrderDetails", query = "SELECT o FROM Order1 o WHERE o.orderDetails = :orderDetails")})
 public class Order1 implements Serializable {
+    @OneToMany(mappedBy = "fKOrderID")
+    private Collection<ShoppingCartLine> shoppingCartLineCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -156,6 +158,15 @@ public class Order1 implements Serializable {
     @Override
     public String toString() {
         return "persistence.Order1[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ShoppingCartLine> getShoppingCartLineCollection() {
+        return shoppingCartLineCollection;
+    }
+
+    public void setShoppingCartLineCollection(Collection<ShoppingCartLine> shoppingCartLineCollection) {
+        this.shoppingCartLineCollection = shoppingCartLineCollection;
     }
     
 }

@@ -30,9 +30,12 @@ $(document).ready(function(){
     $(".addToCartForm").submit(function(event) {
         event.preventDefault();
         var id = $(this).attr("data-id");
+        var shopId = $(this).attr("data-shopid");
         var count = $(this).find("select").val();
-        $.post("addToCart", {id: id, count: count}, function( data ) {
+        $.post("addToCart", {id: id, shopId: shopId, count: count}, function( data ) {
             console.log(data);
+        }).fail(function(info) {
+            console.log("Fail " + info.status);
         });
     });
     

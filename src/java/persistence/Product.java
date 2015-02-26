@@ -6,7 +6,9 @@
 package persistence;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,10 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,6 +42,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Product.findByQueryAndShop", query = "SELECT p FROM Product p, ProductInstance i WHERE (p.name LIKE :query OR p.tags LIKE :query) AND i.productInstancePK.productID = p.id AND i.productInstancePK.shopID = :shopId"),
     @NamedQuery(name = "Product.findByQueryAndShopAndCategory", query = "SELECT p FROM Product p, ProductInstance i WHERE (p.name LIKE :query OR p.tags LIKE :query) AND i.productInstancePK.productID = p.id AND i.productInstancePK.shopID = :shopId AND p.fKProductCategoryID = :categoryId")})
 public class Product implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKProductID")
+    private Collection<ShoppingCartLine> shoppingCartLineCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -145,6 +151,15 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "persistence.Product[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ShoppingCartLine> getShoppingCartLineCollection() {
+        return shoppingCartLineCollection;
+    }
+
+    public void setShoppingCartLineCollection(Collection<ShoppingCartLine> shoppingCartLineCollection) {
+        this.shoppingCartLineCollection = shoppingCartLineCollection;
     }
     
 }

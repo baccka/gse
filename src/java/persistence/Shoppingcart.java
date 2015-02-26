@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Shoppingcart.findAll", query = "SELECT s FROM Shoppingcart s"),
     @NamedQuery(name = "Shoppingcart.findById", query = "SELECT s FROM Shoppingcart s WHERE s.id = :id"),
     @NamedQuery(name = "Shoppingcart.findByNumItems", query = "SELECT s FROM Shoppingcart s WHERE s.numItems = :numItems"),
-    @NamedQuery(name = "Shoppingcart.findBySubTotal", query = "SELECT s FROM Shoppingcart s WHERE s.subTotal = :subTotal")})
+    @NamedQuery(name = "Shoppingcart.findBySubTotal", query = "SELECT s FROM Shoppingcart s WHERE s.subTotal = :subTotal"),
+    @NamedQuery(name = "Shoppingcart.findByCustomer", query = "SELECT s FROM Shoppingcart s WHERE s.fKCustomerID = :customer")})
 public class Shoppingcart implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

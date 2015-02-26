@@ -100,7 +100,7 @@
                                     <div class="thumbnail productActions">
                                         <hr>
                                         <div class="caption">
-                                            <form class="form-inline pull-right addToCartForm" data-id="${product.id}">
+                                            <form class="form-inline pull-right addToCartForm" data-id="${product.id}" data-shopid="${productInstances[status.index].productInstancePK.shopID}">
                                                 <select class="form-control input-sm">
                                                     <option>1</option>
                                                     <option>2</option>

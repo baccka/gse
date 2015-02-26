@@ -6,6 +6,7 @@
 
 package persistence;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,10 @@ public class CustomerFacade extends AbstractFacade<Customer> {
 
     public CustomerFacade() {
         super(Customer.class);
+    }
+    
+    public Customer findById(Integer id){
+       return em.createNamedQuery("Customer.findById", Customer.class).setParameter("id", id).getSingleResult();
     }
     
 }

@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Shop.findById", query = "SELECT s FROM Shop s WHERE s.id = :id"),
     @NamedQuery(name = "Shop.findByName", query = "SELECT s FROM Shop s WHERE s.name = :name")})
 public class Shop implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fKShopID")
+    private Collection<ShoppingCartLine> shoppingCartLineCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -112,6 +114,15 @@ public class Shop implements Serializable {
     @Override
     public String toString() {
         return "persistence.Shop[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ShoppingCartLine> getShoppingCartLineCollection() {
+        return shoppingCartLineCollection;
+    }
+
+    public void setShoppingCartLineCollection(Collection<ShoppingCartLine> shoppingCartLineCollection) {
+        this.shoppingCartLineCollection = shoppingCartLineCollection;
     }
     
 }
