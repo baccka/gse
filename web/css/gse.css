@@ -22,14 +22,17 @@ and open the template in the editor.
 }
 
 .productContainer {
-    box-shadow: 0px 0px 6px #ccc;
-    transition: all .2s ease-in-out;
+    box-shadow: 0px 0px 2px #ccc;
+    transition: all .2s linear;
 }
 
 .productContainer:hover {
-    box-shadow: 0px 0px 12px #808080;
-    transform: scale(1.1);
-    -ms-transform: scale(1.1);
+    cursor: pointer;
+    box-shadow: 0px 0px 6px #ccc;
+}
+
+.productContainer:hover h4 {
+    text-decoration: underline;
 }
 
 .productDescription {
@@ -37,3 +40,33 @@ and open the template in the editor.
     text-overflow: ellipsis; 
     overflow: hidden;
 }
+
+.productActions {
+    display: none;
+    position: absolute; 
+    z-index: 10;
+    left: 15px;
+    right: 15px;
+    background-color: #ffffff;
+    border-top-style: none !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-style: none !important;
+    /*border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;*/
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    box-shadow: 0px 4px 6px #ccc;
+}
+
+.productActions hr {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.productContainer:hover .productActions {
+    border-bottom: solid 1px #ddd;
+}
+
+
+

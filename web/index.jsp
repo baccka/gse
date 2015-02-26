@@ -27,7 +27,7 @@
   <div class="col-xs-8">  
     <form id="searchForm" role="form" action="search" method="get">
     <div class="input-group">
-      <input id="searchField" type="text" class="form-control" name="q" placeholder="what will you buy today?" value="${requestScope.searchQuery}">
+      <input id="searchField" type="text" class="form-control" name="q" placeholder="What will you buy today?" value="${requestScope.searchQuery}">
       <span class="input-group-btn">
         <button class="btn btn-default" type="submit">
             <span class="glyphicon glyphicon-search"></span>
@@ -84,8 +84,27 @@
                                         
                                         <p class="productDescription">${product.description}</p>
                                         <c:if test="${productInstances != null}">
-                                            <p><strong>$12.00</strong> <small>Tesco</small></p>
+                                            <p style="display: inline;">
+                                                <strong>€ 12.00</strong><small> at Tesco</small> 
+                                            </p>
                                         </c:if>
+                                    </div>
+                                    <div class="thumbnail productActions">
+                                        <hr>
+                                        <div class="caption">
+                                            <form class="form-inline pull-right addToCartForm" data-id="${product.id}">
+                                                <select class="form-control input-sm">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                    <option>6</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-danger btn-sm">Add to cart</button>
+                                            </form>
+                                            <div class="clearfix"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

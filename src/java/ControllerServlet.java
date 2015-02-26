@@ -32,7 +32,7 @@ import persistence.Shoppingcart;
  *
  * @author 11365866
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"/index",  "/search", "/cart", ""})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"/index",  "/search", "/cart", "/addToCart"})
 public class ControllerServlet extends HttpServlet {
     @EJB
     private ProductCategoryFacade productCategoryFacade;
@@ -113,6 +113,9 @@ public class ControllerServlet extends HttpServlet {
             List<ShoppingCartLine> lines = shoppingCartLineFacade.findByShoppingCart(cart);
             request.setAttribute("lines", lines);
             userPath = "/cart";
+        } else if (userPath.equals("/addToCart")) {
+            addItemToCart(request, response);
+            return;
         }
         
         request.setAttribute("products", products);
@@ -124,6 +127,22 @@ public class ControllerServlet extends HttpServlet {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    
+    // This method is called whenever a user adds an item to cart.
+    private void addItemToCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String id = (String)request.getParameter("id");
+        int count = 1;
+        Object cParam = request.getParameter("count");
+        if (cParam != null) {
+            count = Integer.parseInt((String)cParam);
+            if (count < 1) {
+                // FIXME: error.
+            }
+        }
+        System.out.println("Adding " + count + " item(s) of id " + id + " to cart");
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
