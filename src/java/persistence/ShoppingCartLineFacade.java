@@ -34,6 +34,17 @@ public class ShoppingCartLineFacade extends AbstractFacade<ShoppingCartLine> {
        return em.createNamedQuery("Product.findByShoppingCart", ShoppingCartLine.class).setParameter("cart", cart).getResultList();
     }
     
+    // Returns a line for a specific item in a cart, or null if this item
+    // isn't in this cart.
+    public ShoppingCartLine findByShoppingCartProductAndShop(Shoppingcart cart, Product product, Shop shop) {
+        List<ShoppingCartLine> lines = em.createNamedQuery("ShoppingCartLine.findByShoppingCartProductAndShop", ShoppingCartLine.class).setParameter("cart", cart).setParameter("product", product).setParameter("shop", shop).getResultList();
+        if (lines.isEmpty()) {
+            return null;
+        }
+        assert(lines.size() == 1);
+        return lines.get(0);
+    }
+    
     // This method adds a new line to a shopping cart.
     public ShoppingCartLine createInCart(Shoppingcart cart, Product product, Shop shop, int quantity) {
         ShoppingCartLine line = new ShoppingCartLine();
@@ -45,6 +56,13 @@ public class ShoppingCartLineFacade extends AbstractFacade<ShoppingCartLine> {
         create(line);
         em.flush();
         return line;
+    }
+    
+    // This method increases quantity of items of a specific a shopping cart line.
+    public void increaseQuantity(ShoppingCartLine line, int quantity) {
+        line.setQuantity(line.getQuantity() + quantity);
+        edit(line);
+        em.flush();
     }
     
 }

@@ -60,5 +60,6 @@ public class ShoppingcartFacade extends AbstractFacade<Shoppingcart> {
     public void addCartLine(Shoppingcart cart, ShoppingCartLine line) {
         cart.setNumItems(cart.getNumItems() + 1);
         edit(cart);
+        em.flush();
     }
 }

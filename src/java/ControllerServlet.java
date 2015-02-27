@@ -167,11 +167,16 @@ public class ControllerServlet extends HttpServlet {
             }
         }
         
-        // Do it
+        // Add the item to shopping cart
         System.out.println("Adding " + count + " item(s) of id " + id + " from shop " + shopId + "  to cart of user " + userId);
         Shoppingcart cart = shoppingCartFacade.getOrCreate(customer);
-        ShoppingCartLine line = shoppingCartLineFacade.createInCart(cart, product, shop, count);
-        shoppingCartFacade.addCartLine(cart, line);
+        ShoppingCartLine line = shoppingCartLineFacade.findByShoppingCartProductAndShop(cart, product, shop);
+        if (line == null) {
+            line = shoppingCartLineFacade.createInCart(cart, product, shop, count);
+            shoppingCartFacade.addCartLine(cart, line);
+        } else {
+            shoppingCartLineFacade.increaseQuantity(line, count);
+        }
         
         response.getOutputStream().flush();
         response.getOutputStream().close();
