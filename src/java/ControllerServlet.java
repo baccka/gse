@@ -35,7 +35,7 @@ import persistence.ShoppingcartFacade;
  *
  * @author 11365866
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"/index",  "/search", "/cart", "/addToCart"})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"", "/index",  "/search", "/cart", "/addToCart"})
 public class ControllerServlet extends HttpServlet {
     @EJB
     private ProductCategoryFacade productCategoryFacade;
