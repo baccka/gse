@@ -8,12 +8,21 @@ package persistence;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,6 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Customer.findByPassword", query = "SELECT c FROM Customer c WHERE c.password = :password")})
 public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String USER_KEY= "email";
     @Id
     @Basic(optional = false)
     @NotNull
@@ -109,10 +119,48 @@ public class Customer implements Serializable {
         }
         return true;
     }
-
+    
+    public boolean validateUser(String pass) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        
+        CustomerFacade customerFacade = new CustomerFacade();
+        try{
+        Customer testCustomer = customerFacade.findByEmail(this.email); //find the corresponding record in DB
+            if(testCustomer.password.equals(pass)) { // check if password in DB matches password given.
+                context.getExternalContext().getSessionMap().put(USER_KEY, email);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch(NoResultException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public void create(Entity e) {
+        
+    }
+       
+    
     @Override
     public String toString() {
         return "persistence.Customer[ id=" + id + " ]";
     }
+
+    private CustomerFacade lookupCustomerFacadeBean() {
+        try {
+            Context c = new InitialContext();
+            return (CustomerFacade) c.lookup("java:global/gse/CustomerFacade!persistence.CustomerFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
     
+    
+   
 }

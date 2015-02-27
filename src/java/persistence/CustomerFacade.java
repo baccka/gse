@@ -29,8 +29,15 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         super(Customer.class);
     }
     
-    public Customer findById(Integer id){
-       return em.createNamedQuery("Customer.findById", Customer.class).setParameter("id", id).getSingleResult();
+    public Customer findByEmail(String email) {
+        return em.createNamedQuery("Customer.findByEmail", Customer.class).setParameter("email", email).getSingleResult();
     }
     
+    public List<Customer> findByPassword(String password) {
+        return em.createNamedQuery("Customer.findByPassword", Customer.class).setParameter("password", password).getResultList();
+    }
+    
+    
+
 }
+

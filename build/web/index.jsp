@@ -46,7 +46,7 @@
            </div>
 
             <div class="col-xs-2 text-right">
-                 <button class="btn btn-primary" type="button">
+                 <button class="btn btn-primary" type="button" data-toggle="modal" data-target ="#myModal">
                      Sign in
                  </button>
                 <a class="btn btn-default" href="cart">
@@ -145,6 +145,38 @@
 
 
 </div>
+    <div class ="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Sign in</h4>
+      </div>
+      <div class="modal-body">
+
+        <form id ="LoginDetails" role="form" action ="login.jsp" method ="POST">
+            <div class="input-group">
+              <label class="Email ">
+              <span>Email: </span>
+              <input id ="email" name ="email" type = "text"/>
+              </label><br/>
+              <label class ="Password">
+                <span>Password: </span>
+                <input id = "password" name ="pass" type = "password"/>
+              </label><br/>
+
+              <br><button class ="btn btn-primary" type ="submit" >Sign in</button>
+              <button class="btn btn-secondary"  type = "submit" formaction="register.jsp" >Register
+              </button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+      </div>
+  </div>
     </body>
 </html>
 
