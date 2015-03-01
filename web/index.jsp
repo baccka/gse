@@ -46,9 +46,24 @@
            </div>
 
             <div class="col-xs-2 text-right">
+                <c:choose> 
+                <c:when test="${customer == null}">
                  <button class="btn btn-primary" type="button" data-toggle="modal" data-target ="#myModal">
                      Sign in
                  </button>
+                </c:when>
+                <c:otherwise>
+                <span class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                      <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="logout">Logout</a></li>
+                    </ul>
+                 </span>
+                </c:otherwise>
+                </c:choose>
                 <a class="btn btn-default" href="cart">
                      <span class="glyphicon glyphicon-shopping-cart"></span> 0
                 </a>
@@ -153,26 +168,38 @@
         <h4 class="modal-title" id="myModalLabel">Sign in</h4>
       </div>
       <div class="modal-body">
-
-        <form id ="LoginDetails" role="form" action ="login.jsp" method ="POST">
-            <div class="input-group">
-              <label class="Email ">
-              <span>Email: </span>
-              <input id ="email" name ="email" type = "text"/>
-              </label><br/>
-              <label class ="Password">
-                <span>Password: </span>
-                <input id = "password" name ="pass" type = "password"/>
-              </label><br/>
-
-              <br><button class ="btn btn-primary" type ="submit" >Sign in</button>
-              <button class="btn btn-secondary"  type = "submit" formaction="register.jsp" >Register
-              </button>
+        <form class="form-horizontal" id="loginDetails" role="form" action="login" method="POST">
+            <div class="form-group" id="notLoggedInMessage" style="display:none;">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <p class="text-danger">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        You need to be logged in before adding items to cart.</p>
+            </div></div>
+            <div class="form-group" id="loginErrorMessage" style="display:none;">
+                <div class="col-sm-offset-2 col-sm-8">
+                    <p class="text-danger">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <strong>Error: </strong>Invalid username or password!</p>
+                </div></div>
+              <div class="form-group">
+    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-8">
+      <input type="email" class="form-control" id="inputEmail" name ="email" placeholder="Email">
+    </div>
+  </div>
+            <div class="form-group">
+    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-8">
+      <input type="password" class="form-control" id="inputPassword" name ="pass" placeholder="Password">
+    </div>
+  </div>
+            <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-8">
+      <button class="btn btn-primary" type="submit">Sign in</button>
+      <button class="btn btn-default"  type="submit" formaction="register.jsp">Register</button>
+    </div>
+  </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
     </div>
   </div>
       </div>

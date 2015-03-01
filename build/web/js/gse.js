@@ -36,6 +36,24 @@ $(document).ready(function(){
             console.log(data);
         }).fail(function(info) {
             console.log("Fail " + info.status);
+            if (info.status == 401) {
+                // Not logged in - show login screen
+                $("#notLoggedInMessage").show();
+                $("#myModal").modal("show");
+            }
+        });
+    });
+    
+    $("#loginDetails").submit(function (event) {
+       event.preventDefault();
+       $("#loginErrorMessage").hide();
+       $("#notLoggedInMessage").hide();
+       var email = $(this).find("#inputEmail").val();
+       var pass = $(this).find("#inputPassword").val();
+       $.post("login", {email: email, pass: pass}, function( data ) {
+            location.reload();
+        }).fail(function(info, text) {
+            $("#loginErrorMessage").show();
         });
     });
     

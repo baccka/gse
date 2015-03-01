@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import persistence.Product;
 import persistence.Shop;
 
-@Generated(value="EclipseLink-2.5.1.v20130918-rNA", date="2014-11-12T12:41:32")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-02-28T08:17:30")
 @StaticMetamodel(ProductCategory.class)
 public class ProductCategory_ { 
 

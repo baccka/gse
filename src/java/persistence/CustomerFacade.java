@@ -30,7 +30,10 @@ public class CustomerFacade extends AbstractFacade<Customer> {
     }
     
     public Customer findByEmail(String email) {
-        return em.createNamedQuery("Customer.findByEmail", Customer.class).setParameter("email", email).getSingleResult();
+        List<Customer> result = em.createNamedQuery("Customer.findByEmail", Customer.class).setParameter("email", email).getResultList();
+        if (result == null || result.isEmpty())
+            return null;
+        return result.get(0);
     }
     
     public List<Customer> findByPassword(String password) {
