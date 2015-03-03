@@ -120,9 +120,29 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/index";
         }
         else if (userPath.equals("/cart")) {
-            List<ShoppingCartLine> lines = shoppingCartLineFacade.findByShoppingCart(cart);
-            request.setAttribute("lines", lines);
-            userPath = "/cart";
+            if (customer == null) {
+                // Not logged in
+                response.sendError(/* HTTP Forbidden */ 403);
+                return;
+            }
+            List<ShoppingCartLine> lines;
+            if (cart != null) {
+                lines = shoppingCartLineFacade.findByShoppingCart(cart);
+            } else {
+                lines = new  ArrayList<ShoppingCartLine>();
+            }
+            request.setAttribute("cartLines", lines);
+            
+            ArrayList<ProductInstance> productInstances = new ArrayList<ProductInstance>();
+            float total = 0;
+            for (int i = 0; i < lines.size(); ++i) {
+                ShoppingCartLine line = lines.get(i);
+                ProductInstance inst = productInstanceFacade.find(new ProductInstancePK(line.getFKProductID().getId(), line.getFKShopID().getId()));
+                productInstances.add(inst);
+                total += inst.getPrice() * line.getQuantity();
+            }
+            request.setAttribute("cartTotal", total);
+            request.setAttribute("productInstances", productInstances);
         } else if (userPath.equals("/addToCart")) {
             addItemToCart(customer, request, response);
             return;
@@ -189,6 +209,10 @@ public class ControllerServlet extends HttpServlet {
             request.setAttribute("productInstances", productInstances);
         } else if (userPath.equals("/order")) {
             // FIXME
+            if (cart != null) {
+                cart.setNumItems(0);
+                shoppingCartFacade.edit(cart);
+            }
         }
         
         request.setAttribute("products", products);
