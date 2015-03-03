@@ -77,11 +77,14 @@ public class ControllerServlet extends HttpServlet {
         request.setAttribute("categories", categories);
         List shops = shopFacade.findAll();
         request.setAttribute("shops", shops);
-        List<Product> products = productFacade.findAll();
+        int[] range= new int[2];
+        range[0] = 0;
+        range[1] = 2;
+        List<Product> products = productFacade.findRange(range);
         String searchQuery = "";
         
         String userPath = request.getServletPath();
-        if (userPath.isEmpty()) userPath = "/index";
+        if (userPath.isEmpty()) userPath = "/home";
         else if(userPath.equals("/search")) {
             searchQuery = request.getParameter("q");
             String categoryQuery = request.getParameter("c");
@@ -112,7 +115,8 @@ public class ControllerServlet extends HttpServlet {
                 Product p = products.get(i);
                 List<ProductInstance> instances = productInstanceFacade.findByProduct(p);
                 if (!instances.isEmpty()) {
-                    productInstances.add(instances.get(0));
+                    // FIXME: lowest price.
+                    productInstances.add(instances.size() == 1? instances.get(0) : instances.get(1));
                 }
             }
             request.setAttribute("productInstances", productInstances);
@@ -212,6 +216,12 @@ public class ControllerServlet extends HttpServlet {
             if (cart != null) {
                 cart.setNumItems(0);
                 shoppingCartFacade.edit(cart);
+            }
+            List<ShoppingCartLine> lines = shoppingCartLineFacade.findByShoppingCart(cart);
+            for (int i = 0; i < lines.size(); ++i) {
+                ShoppingCartLine line = lines.get(i);
+                line.setFKShoppingcartID(null);
+                shoppingCartLineFacade.edit(line);
             }
         }
         

@@ -82,29 +82,32 @@
             
             <div class="row">
                 <div class="col-xs-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-    <h3 class="panel-title">Categories</h3>
-  </div>
-  <div class="panel-body">                    
-<c:forEach var="category" begin="0" items="${requestScope.categories}">
-<p>
-    <c:if test="${shopName != null}">
-        <a href="<c:url value="/search?s="/>${shopName}&c=${category.name}">${category.name}</a>
-    </c:if>
-    <c:if test="${shopName == null}">
-        <a href="<c:url value="/search?c="/>${category.name}">${category.name}</a>
-    </c:if>
-</p> 
-</c:forEach>
-  </div></div>  
+                     
                 </div>
                 
                 <div class="col-xs-8">
-                    <c:forEach var="line" varStatus="status" begin="0" items="${cartLines}">
-                        <p>${line.FKProductID.name} </p>
-                        
-                    </c:forEach>
+                    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Shop</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <c:forEach var="line" varStatus="status" begin="0" items="${cartLines}">
+             <tr>
+                <td><img src="<c:url value="${line.FKProductID.mainImage}"/>" alt="" style="height: 48px; width: auto;">
+                 ${line.FKProductID.name}</td>
+                <td>${line.FKShopID.name}</td>
+                <td>${line.quantity}</td>
+                <td><fmt:formatNumber value="${productInstances[status.index].price}" type="currency"/></td>
+            </tr>
+        </c:forEach>
+      </tbody>
+    </table>
                         <p> Total: <strong><fmt:formatNumber value="${cartTotal}" type="currency"/></strong></p>
                     
                     <form class="form-horizontal" role="form" action="order" method="post">
@@ -167,18 +170,7 @@
                 </div>
                 
                 <div class="col-xs-2 text-right">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-    <h3 class="panel-title">Shops</h3>
-  </div>
-  <div class="panel-body">
-<c:forEach var="shop" begin="0" items="${requestScope.shops}">
-<p>
-   <a href="<c:url value="/search?s="/>${shop.name}">${shop.name}</a>
-</p>
-</c:forEach>
-  </div>
-                    </div>
+                    
                 </div>
   
 </div>

@@ -82,22 +82,7 @@
             
             <div class="row">
                 <div class="col-xs-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-    <h3 class="panel-title">Categories</h3>
-  </div>
-  <div class="panel-body">                    
-<c:forEach var="category" begin="0" items="${requestScope.categories}">
-<p>
-    <c:if test="${shopName != null}">
-        <a href="<c:url value="/search?s="/>${shopName}&c=${category.name}">${category.name}</a>
-    </c:if>
-    <c:if test="${shopName == null}">
-        <a href="<c:url value="/search?c="/>${category.name}">${category.name}</a>
-    </c:if>
-</p> 
-</c:forEach>
-  </div></div>  
+                     
                 </div>
                 
                 <div class="col-xs-8">
@@ -107,8 +92,10 @@
       <thead>
         <tr>
           <th>Product</th>
+          <th>Shop</th>
           <th>Quantity</th>
           <th>Price</th>
+          
         </tr>
       </thead>
       <tbody>
@@ -116,6 +103,7 @@
              <tr>
                 <td><img src="<c:url value="${line.FKProductID.mainImage}"/>" alt="" style="height: 48px; width: auto;">
                  ${line.FKProductID.name}</td>
+                <td>${line.FKShopID.name}</td>
                 <td>${line.quantity}</td>
                 <td><fmt:formatNumber value="${productInstances[status.index].price}" type="currency"/></td>
             </tr>
