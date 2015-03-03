@@ -3,7 +3,8 @@
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="en_IE"/>
 
 <!DOCTYPE html>
 
@@ -35,11 +36,11 @@
                </span>
                <c:if test="${shopName != null}">
                  <input type="hidden" name="s" value="${shopName}" />
-                 <div class="search-badge">${shopName} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                 <div class="search-badge">${shopName} <a data-param="s"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></div>
                </c:if>
                <c:if test="${categoryQuery != null}">
                  <input type="hidden" name="c" value="${categoryQuery}" />
-                 <div class="search-badge">${categoryQuery} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div>
+                 <div class="search-badge">${categoryQuery} <a data-param="c"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></div>
                </c:if>
              </div>
              </form>
@@ -65,7 +66,11 @@
                 </c:otherwise>
                 </c:choose>
                 <a class="btn btn-default" href="cart">
-                     <span class="glyphicon glyphicon-shopping-cart"></span> 0
+                     <span class="glyphicon glyphicon-shopping-cart"></span>
+                     <span id="numItems"><c:choose> 
+                         <c:when test="${cart == null}"> 0</c:when>
+                         <c:otherwise> ${cart.numItems}</c:otherwise>
+                     </c:choose></span>
                 </a>
              </div>
            </div>
@@ -108,7 +113,7 @@
                                         <p class="productDescription">${product.description}</p>
                                         <c:if test="${productInstances != null}">
                                             <p style="display: inline;">
-                                                <strong>€ ${productInstances[status.index].price}</strong><small> at ${shops[productInstances[status.index].productInstancePK.shopID].name}</small> 
+                                                <strong><fmt:formatNumber value="${productInstances[status.index].price}" type="currency"/></strong><small> at ${shops[productInstances[status.index].productInstancePK.shopID].name}</small> 
                                             </p>
                                         </c:if>
                                     </div>
@@ -132,6 +137,9 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        <c:if test="${empty products}">
+                            <p>Nothing found</p>
+                        </c:if>
                     </div>
                     
                     
@@ -195,8 +203,8 @@
   </div>
             <div class="form-group">
     <div class="col-sm-offset-2 col-sm-8">
-      <button class="btn btn-primary" type="submit">Sign in</button>
-      <button class="btn btn-default"  type="submit" formaction="register.jsp">Register</button>
+      <button class="btn btn-primary" type="submit" id="loginBtn">Sign in</button>
+      <button class="btn btn-default"  type="submit" id="registerBtn">Register</button>
     </div>
   </div>
         </form>

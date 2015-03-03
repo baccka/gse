@@ -6,6 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="en_IE"/>
 
+
 <!DOCTYPE html>
 
 <html>
@@ -100,47 +101,67 @@
                 </div>
                 
                 <div class="col-xs-8">
-                    <div class="row">
-                        <c:forEach var="product" varStatus="status" begin="0" items="${requestScope.products}">
-                            <div class="col-sm-6 col-md-4">
-                                <div class="thumbnail productContainer" data-id="${product.id}">
-                                    <img src="<c:url value="${product.mainImage}"/>" alt="" style="height: 200px; width: auto; display: block;">
-                                    <div class="caption">
-                                        <div class="center-block" style="height: 48px">
-                                            <h4 class="text-center">${product.name}</h4>
-                                        </div>
-                                        
-                                        <p class="productDescription">${product.description}</p>
-                                        <c:if test="${productInstances != null}">
-                                            <p style="display: inline;">
-                                                <strong><fmt:formatNumber value="${productInstances[status.index].price}" type="currency"/></strong><small> at ${shops[productInstances[status.index].productInstancePK.shopID].name}</small> 
-                                            </p>
-                                        </c:if>
-                                    </div>
-                                    <div class="thumbnail productActions">
-                                        <hr>
-                                        <div class="caption">
-                                            <form class="form-inline pull-right addToCartForm" data-id="${product.id}" data-shopid="${productInstances[status.index].productInstancePK.shopID}">
-                                                <select class="form-control input-sm">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                    <option>6</option>
-                                                </select>
-                                                <button type="submit" class="btn btn-danger btn-sm">Add to cart</button>
-                                            </form>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </c:forEach>
-                        <c:if test="${empty products}">
-                            <p>Nothing found</p>
-                        </c:if>
-                    </div>
+                    <c:forEach var="line" varStatus="status" begin="0" items="${cartLines}">
+                        <p>${line.FKProductID.name} </p>
+                        
+                    </c:forEach>
+                        <p> Total: <strong><fmt:formatNumber value="${cartTotal}" type="currency"/></strong></p>
+                    
+                    <form class="form-horizontal" role="form" action="order" method="post">
+  <div class="form-group form-group-sm">
+      <h4 class="col-sm-offset-2 col-sm-10">Deliver to</h4>
+  </div>
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">Street 1</label>
+    <div class="col-sm-4">
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="">
+    </div>
+  </div>
+   <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">Street 2</label>
+    <div class="col-sm-4">
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="">
+    </div>
+  </div>
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">City</label>
+    <div class="col-sm-4">
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="">
+    </div>
+  </div>
+  <div class="form-group form-group-sm">
+    <p class="col-sm-offset-2 col-sm-4">
+        Ireland
+    </p>
+  </div>
+                        
+    <div class="form-group form-group-sm">
+      <h4 class="col-sm-offset-2 col-sm-10">Payment Details</h4>
+  </div>
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">CC Number</label>
+    <div class="col-sm-4">
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="">
+    </div>
+  </div>
+   <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">Valid until</label>
+    <div class="col-sm-4">
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="">
+    </div>
+  </div>
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">CCV</label>
+    <div class="col-sm-4">
+      <input class="form-control" type="text" id="formGroupInputSmall" placeholder="">
+    </div>
+  </div>
+   <div class="form-group form-group-sm">
+       <div class="col-sm-offset-2 col-sm-10">
+           <button type="submit" class="btn btn-primary" >Place order</button>
+       </div>
+  </div>
+</form>
                     
                     
                 </div>

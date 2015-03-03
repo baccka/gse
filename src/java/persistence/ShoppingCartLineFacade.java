@@ -31,7 +31,7 @@ public class ShoppingCartLineFacade extends AbstractFacade<ShoppingCartLine> {
     
        
     public List<ShoppingCartLine> findByShoppingCart(Shoppingcart cart){
-       return em.createNamedQuery("Product.findByShoppingCart", ShoppingCartLine.class).setParameter("cart", cart).getResultList();
+       return em.createNamedQuery("ShoppingCartLine.findByShoppingCart", ShoppingCartLine.class).setParameter("cart", cart).getResultList();
     }
     
     // Returns a line for a specific item in a cart, or null if this item

@@ -3,12 +3,31 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ShopFacade.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ProductCategory.java</file>
             <file>file:/Users/alex/projects/gse/nbproject/build-impl.xml</file>
-            <file>file:/Users/alex/projects/gse/src/java/ControllerServlet.java</file>
             <file>file:/Users/alex/projects/gse/setup/glassfish-resources.xml</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ProductInstanceFacade.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ProductImageFacade.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/AbstractFacade.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ShoppingcartFacade.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/ControllerServlet.java</file>
             <file>file:/Users/alex/projects/gse/web/css/gse.css</file>
-            <file>file:/Users/alex/projects/gse/web/js/gse.js</file>
+            <file>file:/Users/alex/projects/gse/web/js/jquery-2.1.1.min.js</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ProductInstancePK.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ProductInstance.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/Shoppingcart.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/Product.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ShoppingCartLine.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ShoppingCartLineFacade.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ProductImage.java</file>
             <file>file:/Users/alex/projects/gse/web/index.jsp</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/DeliveryPerson.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/ProductFacade.java</file>
+            <file>file:/Users/alex/projects/gse/web/js/gse.js</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/CustomerFacade.java</file>
+            <file>file:/Users/alex/projects/gse/src/java/persistence/Customer.java</file>
+            <file>file:/Users/alex/projects/gse/web/register.jsp</file>
         </group>
     </open-files>
 </project-private>

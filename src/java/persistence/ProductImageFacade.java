@@ -6,6 +6,7 @@
 
 package persistence;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,4 +29,7 @@ public class ProductImageFacade extends AbstractFacade<ProductImage> {
         super(ProductImage.class);
     }
     
+    public List<ProductImage> findByProduct(Product product) {
+        return em.createNamedQuery("ProductImage.findByProduct", ProductImage.class).setParameter("product", product).getResultList();
+    }
 }

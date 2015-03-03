@@ -6,6 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="en_IE"/>
 
+
 <!DOCTYPE html>
 
 <html>
@@ -101,26 +102,24 @@
                 
                 <div class="col-xs-8">
                     <div class="row">
-                        <c:forEach var="product" varStatus="status" begin="0" items="${requestScope.products}">
-                            <div class="col-sm-6 col-md-4">
-                                <div class="thumbnail productContainer" data-id="${product.id}">
+                        <div class="col-sm-12">
+                                <div class="thumbnail" data-id="${product.id}">
                                     <img src="<c:url value="${product.mainImage}"/>" alt="" style="height: 200px; width: auto; display: block;">
                                     <div class="caption">
                                         <div class="center-block" style="height: 48px">
                                             <h4 class="text-center">${product.name}</h4>
                                         </div>
+                                        <h5>Description</h5>
+                                        <p>${product.description}</p>
+                                        <h5>Ingredients</h5>
+                                        <p>Product ingredients</p>
                                         
-                                        <p class="productDescription">${product.description}</p>
-                                        <c:if test="${productInstances != null}">
+                                        <c:forEach var="instance" varStatus="status" begin="0" items="${productInstances}">
+                                            <hr>
                                             <p style="display: inline;">
-                                                <strong><fmt:formatNumber value="${productInstances[status.index].price}" type="currency"/></strong><small> at ${shops[productInstances[status.index].productInstancePK.shopID].name}</small> 
+                                                <strong><fmt:formatNumber value="${instance.price}" type="currency"/></strong><small> at ${shops[instance.productInstancePK.shopID].name}</small> 
                                             </p>
-                                        </c:if>
-                                    </div>
-                                    <div class="thumbnail productActions">
-                                        <hr>
-                                        <div class="caption">
-                                            <form class="form-inline pull-right addToCartForm" data-id="${product.id}" data-shopid="${productInstances[status.index].productInstancePK.shopID}">
+                                            <form class="form-inline pull-right addToCartForm" data-id="${product.id}" data-shopid="${instance.productInstancePK.shopID}">
                                                 <select class="form-control input-sm">
                                                     <option>1</option>
                                                     <option>2</option>
@@ -132,14 +131,16 @@
                                                 <button type="submit" class="btn btn-danger btn-sm">Add to cart</button>
                                             </form>
                                             <div class="clearfix"></div>
-                                        </div>
+                                            
+                                        </c:forEach>
                                     </div>
+                                    
+                                        
+
+                                            
+
                                 </div>
-                            </div>
-                        </c:forEach>
-                        <c:if test="${empty products}">
-                            <p>Nothing found</p>
-                        </c:if>
+                        </div>
                     </div>
                     
                     

@@ -21,9 +21,11 @@ import persistence.Product;
 import persistence.ProductCategory;
 import persistence.ProductCategoryFacade;
 import persistence.ProductFacade;
+import persistence.ProductImage;
 import persistence.ProductImageFacade;
 import persistence.ProductInstance;
 import persistence.ProductInstanceFacade;
+import persistence.ProductInstancePK;
 import persistence.Shop;
 import persistence.ShopFacade;
 import persistence.ShoppingCartLine;
@@ -35,7 +37,7 @@ import persistence.ShoppingcartFacade;
  *
  * @author 11365866
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"", "/index",  "/search", "/cart", "/addToCart", "/login", "/logout"})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"", "/index",  "/search", "/cart", "/addToCart", "/login", "/logout", "/register", "/product", "/checkout", "/order"})
 public class ControllerServlet extends HttpServlet {
     @EJB
     private ProductCategoryFacade productCategoryFacade;
@@ -66,6 +68,10 @@ public class ControllerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Customer customer = getSessionCustomer(request);
+        Shoppingcart cart = null;
+        if (customer != null) {
+            cart = shoppingCartFacade.findByCustomer(customer);
+        }
         
         List categories = productCategoryFacade.findAll();
         request.setAttribute("categories", categories);
@@ -114,8 +120,6 @@ public class ControllerServlet extends HttpServlet {
             userPath = "/index";
         }
         else if (userPath.equals("/cart")) {
-            Shoppingcart cart = new Shoppingcart();
-            cart.setId(0);
             List<ShoppingCartLine> lines = shoppingCartLineFacade.findByShoppingCart(cart);
             request.setAttribute("lines", lines);
             userPath = "/cart";
@@ -123,18 +127,74 @@ public class ControllerServlet extends HttpServlet {
             addItemToCart(customer, request, response);
             return;
         } else if (userPath.equals("/login")) {
+            if (customer != null) {
+                // Already logged in
+                response.sendError(/* HTTP Forbidden */ 403);
+                return;
+            }
             login(request, response);
             return;
         } else if (userPath.equals("/logout")) {
+            if (customer == null) {
+                // Already logged out
+                response.sendError(/* HTTP Forbidden */ 403);
+                return;
+            }
             request.getSession().setAttribute("user", null);
-            System.out.println("logout - Redirecting..");
+            System.out.println("logout - Redirecting to main page..");
             response.sendRedirect("");
             return;
+        } else if (userPath.equals("/register")) {
+            if (customer != null) {
+                // Already logged in
+                response.sendError(/* HTTP Forbidden */ 403);
+                return;
+            }
+            register(request, response);
+            return;
+        } else if (userPath.equals("/product")) {
+            String p = request.getParameter("p");
+            int productId = Integer.parseInt(p);
+            System.out.println("product " + productId);
+            Product product = productFacade.find(productId);
+            List<ProductImage> images = productImageFacade.findByProduct(product);
+            List<ProductInstance> instances = productInstanceFacade.findByProduct(product);
+            request.setAttribute("product", product);
+            request.setAttribute("productImages", images);
+            request.setAttribute("productInstances", instances);
+            userPath = "/product";
+        } else if (userPath.equals("/checkout")) {
+            if (customer == null) {
+                // Not logged in
+                response.sendError(/* HTTP Forbidden */ 403);
+                return;
+            }
+            List<ShoppingCartLine> lines;
+            if (cart != null) {
+                lines = shoppingCartLineFacade.findByShoppingCart(cart);
+            } else {
+                lines = new  ArrayList<ShoppingCartLine>();
+            }
+            request.setAttribute("cartLines", lines);
+            
+            ArrayList<ProductInstance> productInstances = new ArrayList<ProductInstance>();
+            float total = 0;
+            for (int i = 0; i < lines.size(); ++i) {
+                ShoppingCartLine line = lines.get(i);
+                ProductInstance inst = productInstanceFacade.find(new ProductInstancePK(line.getFKProductID().getId(), line.getFKShopID().getId()));
+                productInstances.add(inst);
+                total += inst.getPrice() * line.getQuantity();
+            }
+            request.setAttribute("cartTotal", total);
+            request.setAttribute("productInstances", productInstances);
+        } else if (userPath.equals("/order")) {
+            // FIXME
         }
         
         request.setAttribute("products", products);
         request.setAttribute("searchQuery", searchQuery);
         request.setAttribute("customer", customer);
+        request.setAttribute("cart", cart);
         
         String url = userPath + ".jsp";
         try {                   
@@ -180,6 +240,30 @@ public class ControllerServlet extends HttpServlet {
         response.getOutputStream().close();
     }
     
+    private void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String email = request.getParameter("email");
+        String password = request.getParameter("pass");
+        
+        System.out.println("Register - " + email + " " + password + " ");
+        
+        Customer customer = customerFacade.findByEmail(email);
+        if (customer != null) {
+            // Already registered
+            response.sendError(/* HTTP Unauthorized */ 401);
+            return;
+        }
+        customer = new Customer();
+        customer.setId(customerFacade.count() + 1);
+        customer.setEmail(email);
+        customer.setPassword(password);
+        customerFacade.create(customer);
+        
+        request.getSession(true).setAttribute("user", customer.getId());
+        response.setStatus(/* HTTP OK */ 200);
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
+    }
+    
     // This method is called whenever a user adds an item to cart.
     private void addItemToCart(Customer customer, HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (customer == null) {
@@ -212,6 +296,7 @@ public class ControllerServlet extends HttpServlet {
             shoppingCartLineFacade.increaseQuantity(line, count);
         }
         
+        response.getOutputStream().print("{ \"numItems\": " + cart.getNumItems() + " }");
         response.getOutputStream().flush();
         response.getOutputStream().close();
     }

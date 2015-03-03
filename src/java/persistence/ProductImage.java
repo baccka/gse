@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ProductImage.findAll", query = "SELECT p FROM ProductImage p"),
     @NamedQuery(name = "ProductImage.findById", query = "SELECT p FROM ProductImage p WHERE p.id = :id"),
-    @NamedQuery(name = "ProductImage.findByImage", query = "SELECT p FROM ProductImage p WHERE p.image = :image")})
+    @NamedQuery(name = "ProductImage.findByImage", query = "SELECT p FROM ProductImage p WHERE p.image = :image"),
+    @NamedQuery(name = "ProductImage.findByProduct", query = "SELECT p FROM ProductImage p WHERE p.fKProductID = :product")})
 public class ProductImage implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
