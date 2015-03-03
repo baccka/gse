@@ -82,7 +82,10 @@
             
             <div class="row">
                 <div class="col-xs-2">
-                     
+                     <p><a class="btn btn-default" type="button" href="clearCart">
+                        Clear cart
+                    </a>
+                    </p>
                 </div>
                 
                 <div class="col-xs-8">

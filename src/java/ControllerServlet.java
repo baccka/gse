@@ -37,7 +37,7 @@ import persistence.ShoppingcartFacade;
  *
  * @author 11365866
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"", "/index",  "/search", "/cart", "/addToCart", "/login", "/logout", "/register", "/product", "/checkout", "/order"})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"", "/index",  "/search", "/cart", "/addToCart", "/login", "/logout", "/register", "/product", "/checkout", "/order", "/clearCart"})
 public class ControllerServlet extends HttpServlet {
     @EJB
     private ProductCategoryFacade productCategoryFacade;
@@ -223,6 +223,18 @@ public class ControllerServlet extends HttpServlet {
                 line.setFKShoppingcartID(null);
                 shoppingCartLineFacade.edit(line);
             }
+        } else if (userPath.equals("/clearCart")) {
+            if (cart != null) {
+                cart.setNumItems(0);
+                shoppingCartFacade.edit(cart);
+            }
+            List<ShoppingCartLine> lines = shoppingCartLineFacade.findByShoppingCart(cart);
+            for (int i = 0; i < lines.size(); ++i) {
+                ShoppingCartLine line = lines.get(i);
+                shoppingCartLineFacade.remove(line);
+            }
+            response.sendRedirect("cart");
+            return;
         }
         
         request.setAttribute("products", products);
